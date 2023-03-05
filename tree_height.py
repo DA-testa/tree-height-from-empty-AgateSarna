@@ -2,7 +2,7 @@
 
 import sys
 import threading
-import numpy
+import numpy as np
 
 
 def compute_height(n, parents):
@@ -37,23 +37,27 @@ def compute_height(n, parents):
 def main():
 
     source= input()
-    if source == 'F':
-        filename = input()
-        if 'a' in filename:
-            return
-        try:
-            with open(filename, 'r') as F:
-                n = int(F.readline())
-                parents = list(map(int, F.readline().split()))
-        except FileNotFoundError:
-            print("fnf")
-            return
-    else:
+    if source[0] == 'I':
         n = int(input())
-        parents = list(map(int, input().split()))
+        data = input()
+        parents = np.array(data.split(), dtype=int)
+        max_height = compute_height(n, parents)
+        print(max_height)
+    elif source[0] == 'F':
+        file_name = input()
+        if "a" in file_name:
+            return
+        file_name = 'test/' + file_name
+        with open(file_name, 'r') as f:
+            n = int(f.readline())
+            parents = np.array(f.readline().split(), dtype=int)
+        max_height = compute_height(n, parents)
+        print(max_height)
+    else:
+        return
 
-    max_height = compute_height(n, parents)
-    print(max_height)
+
+    
     # implement input form keyboard and from files
     
     # let user input file name to use, don't allow file names with letter a
@@ -70,5 +74,5 @@ def main():
 sys.setrecursionlimit(10**7)  # max depth of recursion
 threading.stack_size(2**27)   # new thread will get stack of such size
 threading.Thread(target=main).start()
-main()
+#main()
 # print(numpy.array([1,2,3]))5
